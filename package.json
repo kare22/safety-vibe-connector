@@ -1,7 +1,7 @@
 {
   "name": "safetyvibe-connect",
-  "version": "0.3.2",
-  "description": "Checks your app's dependencies for known vulnerabilities and its public configuration for common mistakes. Sends the package list and public settings only; preview with --dry-run.",
+  "version": "0.3.3",
+  "description": "Checks your app's dependencies for known vulnerabilities and its public configuration for common mistakes. Reports package versions and selected metadata with known-shape screening; review with inventory or --dry-run.",
   "type": "module",
   "bin": {
     "safetyvibe-connect": "cli.mjs"
@@ -27,13 +27,13 @@
     "osv",
     "safetyvibe"
   ],
-  "author": "SafetyVibe <safetyvibe@advertis.ee>",
+  "author": "SafetyVibe O\u00dc <safetyvibe@advertis.ee>",
   "bugs": {
     "email": "safetyvibe@advertis.ee",
     "url": "https://safetyvibe.eu/connect"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kare22/safetyvibe-connect.git"
+    "url": "git+https://github.com/kare22/safety-vibe-connector.git"
   }
 }

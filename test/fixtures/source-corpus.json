@@ -1,0 +1,7213 @@
+[
+  {
+    "round": 2,
+    "label": "npm prisma",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@prisma/engines-version": {
+            "version": "5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2",
+            "resolved": "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@prisma/engines-version",
+          "version": "5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@prisma/engines-version",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm GH packages /download",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@acme/ui": {
+            "version": "1.2.3",
+            "resolved": "https://npm.pkg.github.com/download/@acme/ui/1.2.3/0123456789abcdef0123456789abcdef01234567",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/ui",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm GH packages /-/",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@acme/ui": {
+            "version": "1.2.3",
+            "resolved": "https://npm.pkg.github.com/@acme/ui/-/ui-1.2.3.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/ui",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm git dep",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "git+ssh://git@github.com/a/foo.git#abc"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm codeload",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "https://codeload.github.com/a/foo/tar.gz/abc"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "known source-host archive"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm file tgz",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "file:vendor/foo-1.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm workspace link",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@me/a": {
+            "resolved": "packages/a",
+            "link": true
+          },
+          "packages/a": {
+            "version": "0.0.0"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@me/a",
+          "status": "excluded",
+          "reason": "workspace link"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm artifactory",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/lodash": {
+            "version": "4.17.21",
+            "resolved": "https://acme.jfrog.io/artifactory/api/npm/npm/lodash/-/lodash-4.17.21.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/lodash",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm codeartifact",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@types/node": {
+            "version": "20.1.0",
+            "resolved": "https://d-1.d.codeartifact.eu-west-1.amazonaws.com/npm/r/@types/node/-/node-20.1.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@types/node",
+          "version": "20.1.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@types/node",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm nexus encoded scope",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@types/node": {
+            "version": "20.1.0",
+            "resolved": "https://nexus.acme/repository/npm/@types%2fnode/-/node-20.1.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@types/node",
+          "version": "20.1.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@types/node",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm gitlab.com pkg registry",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@acme/x": {
+            "version": "1.0.0",
+            "resolved": "https://gitlab.com/api/v4/projects/123/packages/npm/@acme/x/-/@acme/x-1.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm self-hosted gitlab registry",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@acme/x": {
+            "version": "1.0.0",
+            "resolved": "https://gitlab.acme.com/api/v4/projects/123/packages/npm/@acme/x/-/@acme/x-1.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm pkg.pr.new",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/vite": {
+            "version": "6.0.0",
+            "resolved": "https://pkg.pr.new/vite@abc123"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "vite",
+          "version": "6.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/vite",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm no resolved, version only",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm extraneous no version",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "extraneous": true
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "incomplete",
+          "reason": "malformed metadata"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm peer optional placeholder",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "optional": true,
+            "peer": true
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "incomplete",
+          "reason": "malformed metadata"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm fontawesome",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@fortawesome/pro": {
+            "version": "6.5.0",
+            "resolved": "https://npm.fontawesome.com/@fortawesome/pro/-/pro-6.5.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@fortawesome/pro",
+          "version": "6.5.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@fortawesome/pro",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm verdaccio http localhost",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "http://localhost:4873/x/-/x-1.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm sheetjs cdn tgz",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/xlsx": {
+            "version": "0.20.3",
+            "resolved": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "xlsx",
+          "version": "0.20.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/xlsx",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "npm malformed resolved",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/lodash": {
+            "version": "4.17.20",
+            "resolved": "not-a-url"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/lodash",
+          "status": "incomplete",
+          "reason": "malformed resolution"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "yarn1 registry #hash",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\nlodash@^4.17.21:\n  version \"4.17.21\"\n  resolved \"https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "lodash@^4.17.21",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "yarn1 GH packages download",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"@acme/ui@^1.2.3\":\n  version \"1.2.3\"\n  resolved \"https://npm.pkg.github.com/download/@acme/ui/1.2.3/0123456789abcdef#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@acme/ui@^1.2.3",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "yarn1 codeload",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"foo@github:a/foo\":\n  version \"1.0.0\"\n  resolved \"https://codeload.github.com/a/foo/tar.gz/abc\"\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "foo@github:a/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "yarn1 prisma",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2\":\n  version \"5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2\"\n  resolved \"https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@prisma/engines-version",
+          "version": "5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "yarn1 no resolved",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\nlodash@^4.17.21:\n  version \"4.17.21\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "lodash@^4.17.21",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "yarn1 malformed resolved",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\nlodash@^4.17.21:\n  version \"4.17.21\"\n  resolved \"not-a-url\"\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "lodash@^4.17.21",
+          "status": "incomplete",
+          "reason": "malformed resolution"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "berry npm alias",
+    "parser": "fromYarnLock",
+    "args": [
+      "__metadata:\n  version: 8\n  cacheKey: 10\n\n\"string-width-cjs@npm:string-width@^4.2.0\":\n  version: 4.2.3\n  resolution: \"string-width@npm:4.2.3\"\n  checksum: 10/abc\n  languageName: node\n  linkType: hard\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "string-width",
+          "version": "4.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "string-width-cjs@npm:string-width@^4.2.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "berry patch",
+    "parser": "fromYarnLock",
+    "args": [
+      "__metadata:\n  version: 8\n  cacheKey: 10\n\n\"resolve@patch:resolve@npm%3A^1.22.0#optional!builtin<compat/resolve>\":\n  version: 1.22.8\n  resolution: \"resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d\"\n  languageName: node\n  linkType: hard\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "resolve",
+          "version": "1.22.8"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "resolve@patch:resolve@npm%3A^1.22.0#optional!builtin<compat/resolve>",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "berry workspace",
+    "parser": "fromYarnLock",
+    "args": [
+      "__metadata:\n  version: 8\n  cacheKey: 10\n\n\"app@workspace:.\":\n  version: 0.0.0-use.local\n  resolution: \"app@workspace:.\"\n  languageName: unknown\n  linkType: soft\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "app@workspace:.",
+          "status": "excluded",
+          "reason": "source protocol"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "berry prisma",
+    "parser": "fromYarnLock",
+    "args": [
+      "__metadata:\n  version: 8\n  cacheKey: 10\n\n\"@prisma/engines-version@npm:5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2\":\n  version: 5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2\n  resolution: \"@prisma/engines-version@npm:5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2\"\n  checksum: 10/abc\n  languageName: node\n  linkType: hard\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@prisma/engines-version",
+          "version": "5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@prisma/engines-version@npm:5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "berry git",
+    "parser": "fromYarnLock",
+    "args": [
+      "__metadata:\n  version: 8\n  cacheKey: 10\n\n\"foo@https://github.com/a/foo.git#main\":\n  version: 1.0.0\n  resolution: \"foo@https://github.com/a/foo.git#commit=abc\"\n  languageName: node\n  linkType: hard\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "foo@https://github.com/a/foo.git#main",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm9 normal+github-slugger",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  github-slugger@2.0.0:\n    resolution: {integrity: sha512-x}\n\n  lodash@4.17.21:\n    resolution: {integrity: sha512-y}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "github-slugger",
+          "version": "2.0.0"
+        },
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "github-slugger@2.0.0",
+          "status": "reported"
+        },
+        {
+          "key": "lodash@4.17.21",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm9 prisma",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2':\n    resolution: {integrity: sha512-x}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@prisma/engines-version",
+          "version": "5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm9 GH packages tarball",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@acme/ui@1.2.3':\n    resolution: {integrity: sha512-x, tarball: https://npm.pkg.github.com/download/@acme/ui/1.2.3/0123abc}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@acme/ui@1.2.3",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm9 codeload",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  foo@https://codeload.github.com/a/foo/tar.gz/abc:\n    resolution: {tarball: https://codeload.github.com/a/foo/tar.gz/abc}\n    version: 1.0.0\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "foo@https://codeload.github.com/a/foo/tar.gz/abc",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm9 git repo",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  foo@git+https://github.com/a/foo.git#abc:\n    resolution: {commit: abc, repo: https://github.com/a/foo.git, type: git}\n    version: 1.0.0\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "foo@git+https://github.com/a/foo.git#abc",
+          "status": "excluded",
+          "reason": "source protocol"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm9 file",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  foo@file:vendor/foo:\n    resolution: {directory: vendor/foo, type: directory}\n    name: foo\n    version: 1.0.0\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "foo@file:vendor/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm9 esbuild platform",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@esbuild/linux-x64@0.21.5':\n    resolution: {integrity: sha512-x}\n    engines: {node: '>=12'}\n    cpu: [x64]\n    os: [linux]\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@esbuild/linux-x64",
+          "version": "0.21.5"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@esbuild/linux-x64@0.21.5",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm9 sheetjs tarball",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  xlsx@https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz:\n    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz}\n    version: 0.20.3\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "xlsx@https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm6 patched",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\n\npackages:\n\n  /lodash@4.17.21(patch_hash=abc):\n    resolution: {integrity: sha512-x}\n    dev: false\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/lodash@4.17.21(patch_hash=abc)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm6 peer suffix",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\n\npackages:\n\n  /@tanstack/react-query@5.0.0(react@18.2.0):\n    resolution: {integrity: sha512-x}\n    dev: false\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@tanstack/react-query",
+          "version": "5.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/@tanstack/react-query@5.0.0(react@18.2.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm5",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: 5.4\n\npackages:\n\n  /lodash/4.17.21:\n    resolution: {integrity: sha512-x}\n    dev: false\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/lodash/4.17.21",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "pnpm9 custom registry std tarball",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@acme/ui@1.2.3':\n    resolution: {integrity: sha512-x, tarball: https://acme.jfrog.io/artifactory/api/npm/npm/@acme/ui/-/ui-1.2.3.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@acme/ui@1.2.3",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "bun prisma",
+    "parser": "fromBunLock",
+    "args": [
+      "{\"lockfileVersion\":1,\"workspaces\":{},\"packages\":{\"@prisma/engines-version\":[\"@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2\",\"\",{},\"sha512-x\"]}}"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@prisma/engines-version",
+          "version": "5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@prisma/engines-version",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "bun workspace",
+    "parser": "fromBunLock",
+    "args": [
+      "{\"lockfileVersion\":1,\"workspaces\":{},\"packages\":{\"app\":[\"app@workspace:packages/app\"]}}"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "app",
+          "status": "excluded",
+          "reason": "source protocol"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "bun github",
+    "parser": "fromBunLock",
+    "args": [
+      "{\"lockfileVersion\":1,\"workspaces\":{},\"packages\":{\"foo\":[\"foo@github:a/foo#abc\",{},\"a-foo-abc\"]}}"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "alias string-width-cjs",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/string-width-cjs": {
+            "version": "4.2.3",
+            "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+            "integrity": "sha512-x",
+            "name": "string-width"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "string-width",
+          "version": "4.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/string-width-cjs",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "name mismatch on npmjs",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://registry.npmjs.org/evil/-/evil-18.2.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/react",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "version mismatch on npmjs",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://registry.npmjs.org/react/-/react-18.3.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/react",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "GHP version mismatch",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@o/p": {
+            "version": "1.0.0",
+            "resolved": "https://npm.pkg.github.com/download/@o/p/1.0.1/abc",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/@o/p",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "GHP opaque deeper path",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@o/p": {
+            "version": "1.0.0",
+            "resolved": "https://npm.pkg.github.com/download/@o/p/1.0.0/abc/extra",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/@o/p",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "GHP http",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@o/p": {
+            "version": "1.0.0",
+            "resolved": "http://npm.pkg.github.com/download/@o/p/1.0.0/abc",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@o/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@o/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "GHP trailing dot host",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@o/p": {
+            "version": "1.0.0",
+            "resolved": "https://npm.pkg.github.com./download/@o/p/1.0.0/abc",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@o/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@o/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "GHP lookalike host",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@o/p": {
+            "version": "1.0.0",
+            "resolved": "https://npm.pkg.github.com.evil.io/download/@o/p/1.0.0/abc",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@o/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@o/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "npmjs opaque path",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/some/opaque/thing",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "npmjs opaque archive",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/x/archive/main.tar.gz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "npmjs non-semver row",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "latest",
+            "resolved": "https://registry.npmjs.org/x/opaque",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "incomplete",
+          "reason": "malformed metadata"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "arbitrary host npm-style",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://evil.example/x/-/x-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "arbitrary host npm-style verMismatch",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://evil.example/x/-/x-9.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "arbitrary host opaque tgz",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://evil.example/files/x.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "arbitrary host no ext",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://evil.example/files/x",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "gitlab.com npm api",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@a/x": {
+            "version": "1.0.0",
+            "resolved": "https://gitlab.com/api/v4/projects/1/packages/npm/@a/x/-/@a/x-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@a/x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@a/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "gitlab.com npm api opaque",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@a/x": {
+            "version": "1.0.0",
+            "resolved": "https://gitlab.com/api/v4/projects/1/packages/npm/whatever",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@a/x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@a/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "gitlab.com npm api -> archive",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@a/x": {
+            "version": "1.0.0",
+            "resolved": "https://gitlab.com/api/v4/projects/1/packages/npm/../../repository/archive.tar.gz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@a/x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@a/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "gitlab.com npm api encoded ..",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@a/x": {
+            "version": "1.0.0",
+            "resolved": "https://gitlab.com/api/v4/projects/1/packages/npm/%2e%2e/%2e%2e/repository/files/x",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@a/x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@a/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "gitlab.com raw",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://gitlab.com/a/b/-/raw/main/x-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "github release tgz",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://github.com/a/b/releases/download/v1/x-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "excluded",
+          "reason": "known source-host archive"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "gh raw npm-style",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://raw.githubusercontent.com/a/b/main/x/-/x-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "excluded",
+          "reason": "known source-host archive"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "npmjs with userinfo",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://u:p@registry.npmjs.org/x/-/x-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "npmjs bad pct",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/x/-/x-%E0%A4%A.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "incomplete",
+          "reason": "malformed resolution"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "yarnpkg opaque",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://registry.yarnpkg.com/x/opaque",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "extraneous no version",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "extraneous": true
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "incomplete",
+          "reason": "malformed metadata"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "y1 GHP unscoped",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\np@^1.0.0:\n  version \"1.0.0\"\n  resolved \"https://npm.pkg.github.com/download/p/1.0.0/abcdef#sha\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "p@^1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "y1 GHP mismatch",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"@o/p@^1.0.0\":\n  version \"1.0.0\"\n  resolved \"https://npm.pkg.github.com/download/@o/p/2.0.0/abcdef\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "@o/p@^1.0.0",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "y1 GHP encoded scope",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"@o/p@^1.0.0\":\n  version \"1.0.0\"\n  resolved \"https://npm.pkg.github.com/download/@o%2fp/1.0.0/abcdef\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@o/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@o/p@^1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "y1 tarball url dep",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\nx@https://evil.example/x.tgz:\n  version \"1.0.0\"\n  resolved \"https://evil.example/x.tgz#abc\"\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "x@https://evil.example/x.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "y1 tarball url dep npm-style",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\nx@https://evil.example/x/-/x-1.0.0.tgz:\n  version \"1.0.0\"\n  resolved \"https://evil.example/x/-/x-1.0.0.tgz#abc\"\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "x@https://evil.example/x/-/x-1.0.0.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "y1 tarball url on npmjs (opaque)",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\nx@https://registry.npmjs.org/y/-/y-1.0.0.tgz:\n  version \"1.0.0\"\n  resolved \"https://registry.npmjs.org/y/-/y-1.0.0.tgz\"\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "x@https://registry.npmjs.org/y/-/y-1.0.0.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "y1 alias",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"sw-cjs@npm:string-width@^4.2.0\":\n  version \"4.2.3\"\n  resolved \"https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "string-width",
+          "version": "4.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "sw-cjs@npm:string-width@^4.2.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm GHP unscoped",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  p@1.0.0:\n    resolution: {integrity: sha512-x, tarball: https://npm.pkg.github.com/download/p/1.0.0/abc}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "p@1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm GHP mismatch",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@o/p@1.0.0':\n    resolution: {integrity: sha512-x, tarball: https://npm.pkg.github.com/download/@o/p/1.0.2/abc}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "@o/p@1.0.0",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm url-dep on arbitrary host",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  x@https://evil.example/x/-/x-1.0.0.tgz:\n    resolution: {integrity: sha512-x, tarball: https://evil.example/x/-/x-1.0.0.tgz}\n    version: 1.0.0\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "x@https://evil.example/x/-/x-1.0.0.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm url-dep on npmjs opaque",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  x@https://registry.npmjs.org/x/opaque:\n    resolution: {integrity: sha512-x, tarball: https://registry.npmjs.org/x/opaque}\n    version: 1.0.0\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "x@https://registry.npmjs.org/x/opaque",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm GHP no integrity",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  p@1.0.0:\n    resolution: {tarball: https://npm.pkg.github.com/download/p/1.0.0/abc}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "p@1.0.0",
+          "status": "incomplete",
+          "reason": "malformed metadata"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm archive",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/archive": {
+            "version": "0.1.2",
+            "resolved": "https://registry.npmjs.org/archive/-/archive-0.1.2.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "archive",
+          "version": "0.1.2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/archive",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 archive",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"archive@^0.1.2\":\n  version \"0.1.2\"\n  resolved \"https://registry.yarnpkg.com/archive/-/archive-0.1.2.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "archive",
+          "version": "0.1.2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "archive@^0.1.2",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm9 archive nexus",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  'archive@0.1.2':\n    resolution: {integrity: sha512-x, tarball: https://nexus.corp/repository/archive/archive/-/archive-0.1.2.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "archive",
+          "version": "0.1.2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "archive@0.1.2",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm tarball",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/tarball": {
+            "version": "0.1.0",
+            "resolved": "https://registry.npmjs.org/tarball/-/tarball-0.1.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "tarball",
+          "version": "0.1.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/tarball",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 tarball",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"tarball@^0.1.0\":\n  version \"0.1.0\"\n  resolved \"https://registry.yarnpkg.com/tarball/-/tarball-0.1.0.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "tarball",
+          "version": "0.1.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "tarball@^0.1.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm9 tarball nexus",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  'tarball@0.1.0':\n    resolution: {integrity: sha512-x, tarball: https://nexus.corp/repository/archive/tarball/-/tarball-0.1.0.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "tarball",
+          "version": "0.1.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "tarball@0.1.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm zipball",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/zipball": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/zipball/-/zipball-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "zipball",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/zipball",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 zipball",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"zipball@^1.0.0\":\n  version \"1.0.0\"\n  resolved \"https://registry.yarnpkg.com/zipball/-/zipball-1.0.0.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "zipball",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "zipball@^1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm9 zipball nexus",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  'zipball@1.0.0':\n    resolution: {integrity: sha512-x, tarball: https://nexus.corp/repository/archive/zipball/-/zipball-1.0.0.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "zipball",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "zipball@1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm @foo/archive",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@foo/archive": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/@foo/archive/-/archive-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@foo/archive",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@foo/archive",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 @foo/archive",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"@foo/archive@^1.0.0\":\n  version \"1.0.0\"\n  resolved \"https://registry.yarnpkg.com/@foo/archive/-/archive-1.0.0.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@foo/archive",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@foo/archive@^1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm9 @foo/archive nexus",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@foo/archive@1.0.0':\n    resolution: {integrity: sha512-x, tarball: https://nexus.corp/repository/archive/@foo/archive/-/archive-1.0.0.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@foo/archive",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@foo/archive@1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm nexus /repository/archive react",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://nexus.corp/repository/archive/react/-/react-18.2.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "react",
+          "version": "18.2.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/react",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm corp /archive/npm",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://npm.corp.example/archive/npm/react/-/react-18.2.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "react",
+          "version": "18.2.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/react",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm GHP download archive pkg",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@o/archive": {
+            "version": "1.0.0",
+            "resolved": "https://npm.pkg.github.com/download/@o/archive/1.0.0/abc",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@o/archive",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@o/archive",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 nexus archive scoped",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"@acme/ui@^1.2.3\":\n  version \"1.2.3\"\n  resolved \"https://nexus.corp/repository/archive/@acme/ui/-/ui-1.2.3.tgz\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@acme/ui@^1.2.3",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm malformed ver npmjs",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/lodash": {
+            "version": "4.17.21",
+            "resolved": "https://registry.npmjs.org/lodash/-/lodash-not-a-version.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/lodash",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm malformed ver private",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/lodash": {
+            "version": "4.17.21",
+            "resolved": "https://npm.corp/lodash/-/lodash-bad.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/lodash",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm malformed scoped artifactory-style",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@s/p": {
+            "version": "1.0.0",
+            "resolved": "https://npm.corp/@s/p/-/@s/p-bad.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@s/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm mismatch scoped artifactory-style",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@s/p": {
+            "version": "1.0.0",
+            "resolved": "https://npm.corp/@s/p/-/@s/p-2.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@s/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm namemismatch scoped artif-style",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@s/p": {
+            "version": "1.0.0",
+            "resolved": "https://npm.corp/@s/q/-/@s/q-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@s/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm malformed scoped artif npmjs",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@s/p": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/@s/p/-/@s/p-bad.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/@s/p",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm namemismatch npmjs",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://registry.npmjs.org/evil/-/evil-18.2.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/react",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 malformed",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\nlodash@^4:\n  version \"4.17.21\"\n  resolved \"https://registry.yarnpkg.com/lodash/-/lodash-x.tgz\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "lodash@^4",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 malformed scoped artif",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"@s/p@^1\":\n  version \"1.0.0\"\n  resolved \"https://npm.corp/@s/p/-/@s/p-bad.tgz\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@s/p@^1",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm9 malformed",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  'lodash@4.17.21':\n    resolution: {integrity: sha512-x, tarball: https://registry.npmjs.org/lodash/-/lodash-x.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "lodash@4.17.21",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm9 malformed scoped artif",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@s/p@1.0.0':\n    resolution: {integrity: sha512-x, tarball: https://npm.corp/@s/p/-/@s/p-bad.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@s/p@1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm alias w/ name",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/sw-cjs": {
+            "version": "4.2.3",
+            "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+            "integrity": "sha512-x",
+            "name": "string-width"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "string-width",
+          "version": "4.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/sw-cjs",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm scoped alias w/ name",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/my-core": {
+            "version": "7.0.0",
+            "resolved": "https://registry.npmjs.org/@babel/core/-/core-7.0.0.tgz",
+            "integrity": "sha512-x",
+            "name": "@babel/core"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@babel/core",
+          "version": "7.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/my-core",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm nested",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/a/node_modules/@b/c": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/@b/c/-/c-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@b/c",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/a/node_modules/@b/c",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm uppercase",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/JSONStream": {
+            "version": "1.3.5",
+            "resolved": "https://registry.npmjs.org/JSONStream/-/JSONStream-1.3.5.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "JSONStream",
+          "version": "1.3.5"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/JSONStream",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm prerelease",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0-rc.1",
+            "resolved": "https://registry.npmjs.org/x/-/x-1.0.0-rc.1.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "x",
+          "version": "1.0.0-rc.1"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm verdaccio %2f",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@s/p": {
+            "version": "1.0.0",
+            "resolved": "https://verdaccio.corp/@s%2fp/-/p-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@s/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm verdaccio %2f+@scope file",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@s/p": {
+            "version": "1.0.0",
+            "resolved": "https://verdaccio.corp/@s%2fp/-/@s/p-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@s/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm artifactory",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@s/p": {
+            "version": "1.0.0",
+            "resolved": "https://x.jfrog.io/artifactory/api/npm/npm/@s/p/-/@s/p-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@s/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm codeartifact",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/lodash": {
+            "version": "4.17.21",
+            "resolved": "https://d-1.d.codeartifact.eu-west-1.amazonaws.com/npm/r/lodash/-/lodash-4.17.21.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/lodash",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm fontawesome",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@fortawesome/pro-solid-svg-icons": {
+            "version": "6.4.0",
+            "resolved": "https://npm.fontawesome.com/@fortawesome/pro-solid-svg-icons/-/6.4.0/pro-solid-svg-icons-6.4.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@fortawesome/pro-solid-svg-icons",
+          "version": "6.4.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@fortawesome/pro-solid-svg-icons",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm gitlab.com api",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@a/x": {
+            "version": "1.0.0",
+            "resolved": "https://gitlab.com/api/v4/projects/1/packages/npm/@a/x/-/@a/x-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@a/x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@a/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm gitlab selfhosted api",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@a/x": {
+            "version": "1.0.0",
+            "resolved": "https://gitlab.corp/api/v4/projects/1/packages/npm/@a/x/-/@a/x-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@a/x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@a/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm GHP download",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@o/p": {
+            "version": "1.0.0",
+            "resolved": "https://npm.pkg.github.com/download/@o/p/1.0.0/abc",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@o/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@o/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm GHP canonical style",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/@o/p": {
+            "version": "1.0.0",
+            "resolved": "https://npm.pkg.github.com/@o/p/-/p-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@o/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@o/p",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "npm yarnpkg host in npm lock",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {}
+          },
+          "node_modules/x": {
+            "version": "1.0.0",
+            "resolved": "https://registry.yarnpkg.com/x/-/x-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "x",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/x",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 alias",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"sw-cjs@npm:string-width@^4.2.0\":\n  version \"4.2.3\"\n  resolved \"https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "string-width",
+          "version": "4.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "sw-cjs@npm:string-width@^4.2.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 scoped alias",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"my-core@npm:@babel/core@^7\":\n  version \"7.0.0\"\n  resolved \"https://registry.yarnpkg.com/@babel/core/-/core-7.0.0.tgz\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@babel/core",
+          "version": "7.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "my-core@npm:@babel/core@^7",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 alias no range",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"foo@npm:lodash\":\n  version \"4.17.21\"\n  resolved \"https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "foo@npm:lodash",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 multi spec incl alias",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"lodash@^4\", \"foo@npm:lodash@^4\":\n  version \"4.17.21\"\n  resolved \"https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "lodash@^4",
+          "status": "reported"
+        },
+        {
+          "key": "foo@npm:lodash@^4",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 multi spec incl tag",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\nlodash@^4, lodash@latest:\n  version \"4.17.21\"\n  resolved \"https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "lodash@^4",
+          "status": "reported"
+        },
+        {
+          "key": "lodash@latest",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 fontawesome",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"@fortawesome/pro-solid-svg-icons@^6\":\n  version \"6.4.0\"\n  resolved \"https://npm.fontawesome.com/@fortawesome/pro-solid-svg-icons/-/6.4.0/pro-solid-svg-icons-6.4.0.tgz\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@fortawesome/pro-solid-svg-icons",
+          "version": "6.4.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@fortawesome/pro-solid-svg-icons@^6",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "y1 artifactory scoped",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"@s/p@^1\":\n  version \"1.0.0\"\n  resolved \"https://x.jfrog.io/artifactory/api/npm/npm/@s/p/-/@s/p-1.0.0.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@s/p@^1",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "berry alias",
+    "parser": "fromYarnLock",
+    "args": [
+      "__metadata:\n  version: 8\n\n\"sw-cjs@npm:string-width@^4.2.0\":\n  version: 4.2.3\n  resolution: \"string-width@npm:4.2.3\"\n  checksum: abc\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "string-width",
+          "version": "4.2.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "sw-cjs@npm:string-width@^4.2.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm9 scoped private",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@s/p@1.0.0':\n    resolution: {integrity: sha512-x, tarball: https://npm.corp/@s/p/-/p-1.0.0.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@s/p@1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm9 artif scoped",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@s/p@1.0.0':\n    resolution: {integrity: sha512-x, tarball: https://x.jfrog.io/artifactory/api/npm/npm/@s/p/-/@s/p-1.0.0.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@s/p@1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm9 with peer suffix",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  'react-dom@18.2.0(react@18.2.0)':\n    resolution: {integrity: sha512-x, tarball: https://npm.corp/react-dom/-/react-dom-18.2.0.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "react-dom",
+          "version": "18.2.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "react-dom@18.2.0(react@18.2.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm9 fontawesome",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@fortawesome/pro-solid-svg-icons@6.4.0':\n    resolution: {integrity: sha512-x, tarball: https://npm.fontawesome.com/@fortawesome/pro-solid-svg-icons/-/6.4.0/pro-solid-svg-icons-6.4.0.tgz}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@fortawesome/pro-solid-svg-icons",
+          "version": "6.4.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@fortawesome/pro-solid-svg-icons@6.4.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm6 private",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\n\npackages:\n\n  '/lodash@4.17.21':\n    resolution: {integrity: sha512-x, tarball: https://npm.corp/lodash/-/lodash-4.17.21.tgz}\n    dev: false\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/lodash@4.17.21",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm6 scoped private peer",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\n\npackages:\n\n  '/@s/p@1.0.0(react@18.2.0)':\n    resolution: {integrity: sha512-x, tarball: https://npm.corp/@s/p/-/p-1.0.0.tgz}\n    dev: false\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@s/p",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/@s/p@1.0.0(react@18.2.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "pnpm5 private",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: 5.4\n\npackages:\n\n  /lodash/4.17.21_react@18.2.0:\n    resolution: {integrity: sha512-x, tarball: https://npm.corp/lodash/-/lodash-4.17.21.tgz}\n    dev: false\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/lodash/4.17.21_react@18.2.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "package download project",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "name": "app",
+        "version": "1.0.0",
+        "lockfileVersion": 3,
+        "requires": true,
+        "packages": {
+          "": {
+            "name": "app",
+            "version": "1.0.0",
+            "dependencies": {
+              "@acme/ui": "^1.2.3",
+              "next": "15.0.3"
+            }
+          },
+          "node_modules/@acme/ui": {
+            "version": "1.2.3",
+            "resolved": "https://npm.pkg.github.com/download/@acme/ui/1.2.3/9f2c1e0d4b5a69788766554433221100ffeeddcc",
+            "integrity": "sha512-AAAA"
+          },
+          "node_modules/next": {
+            "version": "15.0.3",
+            "resolved": "https://registry.npmjs.org/next/-/next-15.0.3.tgz",
+            "integrity": "sha512-BBBB"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        },
+        {
+          "name": "next",
+          "version": "15.0.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/ui",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/next",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "label": "package download setup project",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "name": "app",
+        "version": "1.0.0",
+        "lockfileVersion": 3,
+        "requires": true,
+        "packages": {
+          "": {
+            "name": "app",
+            "version": "1.0.0",
+            "dependencies": {
+              "@acme/ui": "^1.2.3",
+              "next": "15.0.3"
+            }
+          },
+          "node_modules/@acme/ui": {
+            "version": "1.2.3",
+            "resolved": "https://npm.pkg.github.com/download/@acme/ui/1.2.3/9f2c1e0d4b5a69788766554433221100ffeeddcc",
+            "integrity": "sha512-AAAA"
+          },
+          "node_modules/next": {
+            "version": "15.0.3",
+            "resolved": "https://registry.npmjs.org/next/-/next-15.0.3.tgz",
+            "integrity": "sha512-BBBB"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        },
+        {
+          "name": "next",
+          "version": "15.0.3"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/ui",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/next",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "fresh repository project",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "name": "app",
+        "version": "1.0.0",
+        "lockfileVersion": 3,
+        "requires": true,
+        "packages": {
+          "": {
+            "name": "app",
+            "version": "1.0.0",
+            "dependencies": {
+              "@acme/ui": "^1.2.3",
+              "react": "^18.2.0"
+            }
+          },
+          "node_modules/@acme/ui": {
+            "version": "1.2.3",
+            "resolved": "https://npm.pkg.github.com/download/@acme/ui/1.2.3/0123456789abcdef0123456789abcdef01234567",
+            "integrity": "sha512-x"
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://registry.npmjs.org/react/-/react-18.2.0.tgz",
+            "integrity": "sha512-y"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        },
+        {
+          "name": "react",
+          "version": "18.2.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/ui",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/react",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "unversioned project",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "name": "app",
+        "version": "1.0.0",
+        "lockfileVersion": 3,
+        "requires": true,
+        "packages": {
+          "": {
+            "name": "app",
+            "version": "1.0.0",
+            "dependencies": {
+              "@acme/ui": "^1.2.3",
+              "react": "^18.2.0"
+            }
+          },
+          "node_modules/@acme/ui": {
+            "version": "1.2.3",
+            "resolved": "https://npm.pkg.github.com/download/@acme/ui/1.2.3/0123456789abcdef0123456789abcdef01234567",
+            "integrity": "sha512-x"
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://registry.npmjs.org/react/-/react-18.2.0.tgz",
+            "integrity": "sha512-y"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        },
+        {
+          "name": "react",
+          "version": "18.2.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/ui",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/react",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "archive mirror project",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "name": "app",
+        "version": "1.0.0",
+        "lockfileVersion": 3,
+        "requires": true,
+        "packages": {
+          "": {
+            "name": "app",
+            "version": "1.0.0",
+            "dependencies": {
+              "@acme/ui": "^1.2.3",
+              "react": "^18.2.0"
+            }
+          },
+          "node_modules/@acme/ui": {
+            "version": "1.2.3",
+            "resolved": "https://npm.pkg.github.com/download/@acme/ui/1.2.3/0123456789abcdef0123456789abcdef01234567",
+            "integrity": "sha512-x"
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://nexus.corp/repository/archive/react/-/react-18.2.0.tgz",
+            "integrity": "sha512-y"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "1.2.3"
+        },
+        {
+          "name": "react",
+          "version": "18.2.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/ui",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/react",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "scoped registry project",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nsettings:\n  autoInstallPeers: true\n  excludeLinksFromLockfile: false\n\nimporters:\n\n  .:\n    dependencies:\n      '@babel/code-frame':\n        specifier: ^7.22.0\n        version: 7.22.13\n      lodash:\n        specifier: ^4.17.21\n        version: 4.17.21\n\npackages:\n\n  '@babel/code-frame@7.22.13':\n    resolution: {integrity: sha512-XktuhWlJ5g+3TJXc5upd9Ks1HutSArik6jf2eAjYFdIbjd6w==, tarball: https://acme.jfrog.io/artifactory/api/npm/npm-virtual/@babel/code-frame/-/@babel/code-frame-7.22.13.tgz}\n    engines: {node: '>=6.9.0'}\n\n  lodash@4.17.21:\n    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==, tarball: https://acme.jfrog.io/artifactory/api/npm/npm-virtual/lodash/-/lodash-4.17.21.tgz}\n\nsnapshots:\n\n  '@babel/code-frame@7.22.13': {}\n\n  lodash@4.17.21: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@babel/code-frame",
+          "version": "7.22.13"
+        },
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@babel/code-frame@7.22.13",
+          "status": "reported"
+        },
+        {
+          "key": "lodash@4.17.21",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "label": "environment scan project",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {
+              "lodash": "^4.17.21"
+            }
+          },
+          "node_modules/lodash": {
+            "version": "4.17.21",
+            "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.21"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/lodash",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "public package name archive",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {},
+          "node_modules/archive": {
+            "version": "0.1.2",
+            "resolved": "https://registry.npmjs.org/archive/-/archive-0.1.2.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "archive",
+          "version": "0.1.2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/archive",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "Yarn package name archive",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"archive@^0.1.2\":\n  version \"0.1.2\"\n  resolved \"https://registry.yarnpkg.com/archive/-/archive-0.1.2.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "archive",
+          "version": "0.1.2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "archive@^0.1.2",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm package name archive",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  'archive@0.1.2':\n    resolution: {integrity: sha512-x}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "archive",
+          "version": "0.1.2"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "archive@0.1.2",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "public package name tarball",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {},
+          "node_modules/tarball": {
+            "version": "0.1.0",
+            "resolved": "https://registry.npmjs.org/tarball/-/tarball-0.1.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "tarball",
+          "version": "0.1.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/tarball",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "Yarn package name tarball",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"tarball@^0.1.0\":\n  version \"0.1.0\"\n  resolved \"https://registry.yarnpkg.com/tarball/-/tarball-0.1.0.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "tarball",
+          "version": "0.1.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "tarball@^0.1.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm package name tarball",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  'tarball@0.1.0':\n    resolution: {integrity: sha512-x}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "tarball",
+          "version": "0.1.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "tarball@0.1.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "public package name zipball",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {},
+          "node_modules/zipball": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/zipball/-/zipball-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "zipball",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/zipball",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "Yarn package name zipball",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"zipball@^1.0.0\":\n  version \"1.0.0\"\n  resolved \"https://registry.yarnpkg.com/zipball/-/zipball-1.0.0.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "zipball",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "zipball@^1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm package name zipball",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  'zipball@1.0.0':\n    resolution: {integrity: sha512-x}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "zipball",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "zipball@1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "public package name @foo/archive",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {},
+          "node_modules/@foo/archive": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/@foo/archive/-/archive-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@foo/archive",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@foo/archive",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "Yarn package name @foo/archive",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"@foo/archive@^1.0.0\":\n  version \"1.0.0\"\n  resolved \"https://registry.yarnpkg.com/@foo/archive/-/archive-1.0.0.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@foo/archive",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@foo/archive@^1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm package name @foo/archive",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  '@foo/archive@1.0.0':\n    resolution: {integrity: sha512-x}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@foo/archive",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@foo/archive@1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "public package name archiver",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {},
+          "node_modules/archiver": {
+            "version": "7.0.1",
+            "resolved": "https://registry.npmjs.org/archiver/-/archiver-7.0.1.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "archiver",
+          "version": "7.0.1"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/archiver",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "Yarn package name archiver",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"archiver@^7.0.1\":\n  version \"7.0.1\"\n  resolved \"https://registry.yarnpkg.com/archiver/-/archiver-7.0.1.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "archiver",
+          "version": "7.0.1"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "archiver@^7.0.1",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm package name archiver",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  'archiver@7.0.1':\n    resolution: {integrity: sha512-x}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "archiver",
+          "version": "7.0.1"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "archiver@7.0.1",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "public package name lodash.git",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {},
+          "node_modules/lodash.git": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/lodash.git/-/lodash.git-1.0.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash.git",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/lodash.git",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "Yarn package name lodash.git",
+    "parser": "fromYarnLock",
+    "args": [
+      "# yarn lockfile v1\n\n\"lodash.git@^1.0.0\":\n  version \"1.0.0\"\n  resolved \"https://registry.yarnpkg.com/lodash.git/-/lodash.git-1.0.0.tgz#abc\"\n  integrity sha512-x\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash.git",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "lodash.git@^1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "pnpm package name lodash.git",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\n\nimporters:\n  .: {}\n\npackages:\n\n  'lodash.git@1.0.0':\n    resolution: {integrity: sha512-x}\n\nsnapshots:\n\n  x@1.0.0: {}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash.git",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "lodash.git@1.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "multi-package mirror https://nexus.corp/repository/archive/",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {},
+          "node_modules/lodash": {
+            "version": "4.17.20",
+            "resolved": "https://nexus.corp/repository/archive/lodash/-/lodash-4.17.20.tgz",
+            "integrity": "sha512-x"
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://nexus.corp/repository/archive/react/-/react-18.2.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.20"
+        },
+        {
+          "name": "react",
+          "version": "18.2.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/lodash",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/react",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "multi-package mirror https://npm.corp.example/archive/npm/",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {},
+          "node_modules/lodash": {
+            "version": "4.17.20",
+            "resolved": "https://npm.corp.example/archive/npm/lodash/-/lodash-4.17.20.tgz",
+            "integrity": "sha512-x"
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://npm.corp.example/archive/npm/react/-/react-18.2.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.20"
+        },
+        {
+          "name": "react",
+          "version": "18.2.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/lodash",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/react",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "multi-package mirror https://cache.corp/tarball/",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {},
+          "node_modules/lodash": {
+            "version": "4.17.20",
+            "resolved": "https://cache.corp/tarball/lodash/-/lodash-4.17.20.tgz",
+            "integrity": "sha512-x"
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://cache.corp/tarball/react/-/react-18.2.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.20"
+        },
+        {
+          "name": "react",
+          "version": "18.2.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/lodash",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/react",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "label": "multi-package mirror https://nexus.corp/repository/npm-group/",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {},
+          "node_modules/lodash": {
+            "version": "4.17.20",
+            "resolved": "https://nexus.corp/repository/npm-group/lodash/-/lodash-4.17.20.tgz",
+            "integrity": "sha512-x"
+          },
+          "node_modules/react": {
+            "version": "18.2.0",
+            "resolved": "https://nexus.corp/repository/npm-group/react/-/react-18.2.0.tgz",
+            "integrity": "sha512-x"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.20"
+        },
+        {
+          "name": "react",
+          "version": "18.2.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/lodash",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/react",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 absolute registry.corp lodash",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  'registry.corp/lodash/4.17.20':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.20"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp/lodash/4.17.20",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 absolute registry.corp:4873 lodash",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  'registry.corp:4873/lodash/4.17.20':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.20"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp:4873/lodash/4.17.20",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 absolute registry.corp @acme/ui",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  'registry.corp/@acme/ui/4.17.20':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "4.17.20"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp/@acme/ui/4.17.20",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 absolute registry.corp:4873 @acme/ui",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  'registry.corp:4873/@acme/ui/4.17.20':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "4.17.20"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp:4873/@acme/ui/4.17.20",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 absolute registry.corp lodash",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  'registry.corp/lodash@4.17.20':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.20"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp/lodash@4.17.20",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 absolute registry.corp:4873 lodash",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  'registry.corp:4873/lodash@4.17.20':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "lodash",
+          "version": "4.17.20"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp:4873/lodash@4.17.20",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 absolute registry.corp @acme/ui",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  'registry.corp/@acme/ui@4.17.20':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "4.17.20"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp/@acme/ui@4.17.20",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 absolute registry.corp:4873 @acme/ui",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  'registry.corp:4873/@acme/ui@4.17.20':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/ui",
+          "version": "4.17.20"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp:4873/@acme/ui@4.17.20",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 peer suffix 1.0.0",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  '/widget/1.0.0_abcdef0123456789abcdef0123456789ab':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/widget/1.0.0_abcdef0123456789abcdef0123456789ab",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 peer suffix 1.0.0-rc.1",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  '/widget/1.0.0-rc.1_abcdef0123456789abcdef0123456789ab':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0-rc.1"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/widget/1.0.0-rc.1_abcdef0123456789abcdef0123456789ab",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 peer suffix 1.0.0+build.7",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  '/widget/1.0.0+build.7_abcdef0123456789abcdef0123456789ab':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/widget/1.0.0+build.7_abcdef0123456789abcdef0123456789ab",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 peer suffix 1.0.0-rc.1+build.7",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  '/widget/1.0.0-rc.1+build.7_abcdef0123456789abcdef0123456789ab':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/widget/1.0.0-rc.1+build.7_abcdef0123456789abcdef0123456789ab",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 peer suffix 1.0.0",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  '/widget@1.0.0(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/widget@1.0.0(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 peer suffix 1.0.0-rc.1",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  '/widget@1.0.0-rc.1(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0-rc.1"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/widget@1.0.0-rc.1(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 peer suffix 1.0.0+build.7",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  '/widget@1.0.0+build.7(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/widget@1.0.0+build.7(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 peer suffix 1.0.0-rc.1+build.7",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  '/widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 9.0 peer suffix 1.0.0",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\npackages:\n  'widget@1.0.0(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "widget@1.0.0(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 9.0 peer suffix 1.0.0-rc.1",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\npackages:\n  'widget@1.0.0-rc.1(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0-rc.1"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "widget@1.0.0-rc.1(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 9.0 peer suffix 1.0.0+build.7",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\npackages:\n  'widget@1.0.0+build.7(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "widget@1.0.0+build.7(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 9.0 peer suffix 1.0.0-rc.1+build.7",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '9.0'\npackages:\n  'widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 transitive URL key bare",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  'cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz':\n    resolution: {integrity: sha512-fixture, tarball: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz}\n    name: xlsx\n    version: 0.20.3\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 transitive URL key prefixed",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  '@cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz':\n    resolution: {integrity: sha512-fixture, tarball: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz}\n    name: xlsx\n    version: 0.20.3\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 direct URL key bare",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\nspecifiers:\n  xlsx: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz\ndependencies:\n  xlsx: 'cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz'\npackages:\n  'cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz':\n    resolution: {integrity: sha512-fixture, tarball: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz}\n    name: xlsx\n    version: 0.20.3\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 direct URL key prefixed",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\nspecifiers:\n  xlsx: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz\ndependencies:\n  xlsx: '@cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz'\npackages:\n  '@cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz':\n    resolution: {integrity: sha512-fixture, tarball: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz}\n    name: xlsx\n    version: 0.20.3\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 transitive URL key bare",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  'cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz':\n    resolution: {integrity: sha512-fixture, tarball: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz}\n    name: xlsx\n    version: 0.20.3\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 transitive URL key prefixed",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  '@cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz':\n    resolution: {integrity: sha512-fixture, tarball: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz}\n    name: xlsx\n    version: 0.20.3\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 direct URL key bare",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\ndependencies:\n  xlsx:\n    specifier: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz\n    version: 'cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz'\npackages:\n  'cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz':\n    resolution: {integrity: sha512-fixture, tarball: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz}\n    name: xlsx\n    version: 0.20.3\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 direct URL key prefixed",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\ndependencies:\n  xlsx:\n    specifier: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz\n    version: '@cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz'\npackages:\n  '@cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz':\n    resolution: {integrity: sha512-fixture, tarball: https://cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz}\n    name: xlsx\n    version: 0.20.3\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@cdn.example/xlsx-0.20.3/xlsx-0.20.3.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm URL key matches importer locator",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\ndependencies:\n  compat:\n    specifier: https://mirror.example/custom.tgz\n    version: \"@cdn.example/custom.tgz\"\npackages:\n  '@cdn.example/custom.tgz':\n    resolution: {integrity: sha512-fixture, tarball: https://mirror.example/custom.tgz}\n    name: xlsx\n    version: 0.20.3\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "@cdn.example/custom.tgz",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 malformed path cannot become Git shorthand",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  'registry.corp/lodash/not-a-version':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "registry.corp/lodash/not-a-version",
+          "status": "incomplete",
+          "reason": "malformed metadata"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 malformed path cannot become Git shorthand",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  'registry.corp/lodash/not-a-version':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "registry.corp/lodash/not-a-version",
+          "status": "incomplete",
+          "reason": "malformed metadata"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 1 direct https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 1,
+        "dependencies": {
+          "foo": {
+            "version": "1.0.0",
+            "resolved": "https://downloads.example/foo.tgz"
+          },
+          "bar": {
+            "version": "1.0.0",
+            "requires": {
+              "foo": "^1.0.0"
+            }
+          }
+        }
+      },
+      {
+        "manifest": {
+          "dependencies": {
+            "foo": "https://downloads.example/foo.tgz",
+            "bar": "^1.0.0"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 1 direct git+https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 1,
+        "dependencies": {
+          "foo": {
+            "version": "1.0.0",
+            "resolved": "git+https://code.example/foo.git"
+          },
+          "bar": {
+            "version": "1.0.0",
+            "requires": {
+              "foo": "^1.0.0"
+            }
+          }
+        }
+      },
+      {
+        "manifest": {
+          "dependencies": {
+            "foo": "git+https://code.example/foo.git",
+            "bar": "^1.0.0"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 1 direct file edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 1,
+        "dependencies": {
+          "foo": {
+            "version": "1.0.0",
+            "resolved": "file:vendor/foo"
+          },
+          "bar": {
+            "version": "1.0.0",
+            "requires": {
+              "foo": "^1.0.0"
+            }
+          }
+        }
+      },
+      {
+        "manifest": {
+          "dependencies": {
+            "foo": "file:vendor/foo",
+            "bar": "^1.0.0"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 1 transitive https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 1,
+        "dependencies": {
+          "foo": {
+            "version": "1.0.0",
+            "resolved": "https://downloads.example/foo.tgz"
+          },
+          "bar": {
+            "version": "1.0.0",
+            "requires": {
+              "foo": "https://downloads.example/foo.tgz"
+            }
+          }
+        }
+      },
+      {
+        "manifest": {
+          "dependencies": {
+            "foo": "^1.0.0",
+            "bar": "^1.0.0"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 1 transitive git+https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 1,
+        "dependencies": {
+          "foo": {
+            "version": "1.0.0",
+            "resolved": "git+https://code.example/foo.git"
+          },
+          "bar": {
+            "version": "1.0.0",
+            "requires": {
+              "foo": "git+https://code.example/foo.git"
+            }
+          }
+        }
+      },
+      {
+        "manifest": {
+          "dependencies": {
+            "foo": "^1.0.0",
+            "bar": "^1.0.0"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 1 transitive file edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 1,
+        "dependencies": {
+          "foo": {
+            "version": "1.0.0",
+            "resolved": "file:vendor/foo"
+          },
+          "bar": {
+            "version": "1.0.0",
+            "requires": {
+              "foo": "file:vendor/foo"
+            }
+          }
+        }
+      },
+      {
+        "manifest": {
+          "dependencies": {
+            "foo": "^1.0.0",
+            "bar": "^1.0.0"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 2 direct https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 2,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "https://downloads.example/foo.tgz",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "https://downloads.example/foo.tgz"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "^1.0.0"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 2 direct git+https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 2,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "git+https://code.example/foo.git",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "git+https://code.example/foo.git"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "^1.0.0"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 2 direct file edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 2,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "file:vendor/foo",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "file:vendor/foo"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "^1.0.0"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 2 transitive https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 2,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "^1.0.0",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "https://downloads.example/foo.tgz"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "https://downloads.example/foo.tgz"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 2 transitive git+https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 2,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "^1.0.0",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "git+https://code.example/foo.git"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "git+https://code.example/foo.git"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 2 transitive file edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 2,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "^1.0.0",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "file:vendor/foo"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "file:vendor/foo"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 3 direct https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "https://downloads.example/foo.tgz",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "https://downloads.example/foo.tgz"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "^1.0.0"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 3 direct git+https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "git+https://code.example/foo.git",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "git+https://code.example/foo.git"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "^1.0.0"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 3 direct file edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "file:vendor/foo",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "file:vendor/foo"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "^1.0.0"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 3 transitive https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "^1.0.0",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "https://downloads.example/foo.tgz"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "https://downloads.example/foo.tgz"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "declared URL dependency"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 3 transitive git+https edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "^1.0.0",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "git+https://code.example/foo.git"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "git+https://code.example/foo.git"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 3 transitive file edge shares range",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "^1.0.0",
+              "bar": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "file:vendor/foo"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "file:vendor/foo"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "excluded",
+          "reason": "source protocol"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 1 unsatisfied URL edge preserves registry installation",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 1,
+        "dependencies": {
+          "foo": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/foo/-/foo-1.0.0.tgz"
+          },
+          "bar": {
+            "version": "1.0.0",
+            "requires": {
+              "foo": "https://downloads.example/foo.tgz"
+            }
+          }
+        }
+      },
+      {
+        "manifest": {
+          "dependencies": {
+            "foo": "^1.0.0"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "foo",
+          "version": "1.0.0"
+        },
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 2 unsatisfied URL edge preserves registry installation",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 2,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/foo/-/foo-1.0.0.tgz"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "https://downloads.example/foo.tgz"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "foo",
+          "version": "1.0.0"
+        },
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "npm 3 unsatisfied URL edge preserves registry installation",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "": {
+            "dependencies": {
+              "foo": "^1.0.0"
+            }
+          },
+          "node_modules/foo": {
+            "version": "1.0.0",
+            "resolved": "https://registry.npmjs.org/foo/-/foo-1.0.0.tgz"
+          },
+          "node_modules/bar": {
+            "version": "1.0.0",
+            "dependencies": {
+              "foo": "https://downloads.example/foo.tgz"
+            }
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "foo",
+          "version": "1.0.0"
+        },
+        {
+          "name": "bar",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/foo",
+          "status": "reported"
+        },
+        {
+          "key": "node_modules/bar",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP registry.npmjs.org widget canonical",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/widget": {
+            "version": "1.0.0",
+            "resolved": "http://registry.npmjs.org/widget/-/widget-1.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/widget",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP registry.npmjs.org widget mismatch",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/widget": {
+            "version": "1.0.0",
+            "resolved": "http://registry.npmjs.org/widget/-/widget-2.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/widget",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP registry.npmjs.org @acme/widget canonical",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/@acme/widget": {
+            "version": "1.0.0",
+            "resolved": "http://registry.npmjs.org/@acme/widget/-/widget-1.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/widget",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/widget",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP registry.npmjs.org @acme/widget mismatch",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/@acme/widget": {
+            "version": "1.0.0",
+            "resolved": "http://registry.npmjs.org/@acme/widget/-/widget-2.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/widget",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP registry.yarnpkg.com widget canonical",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/widget": {
+            "version": "1.0.0",
+            "resolved": "http://registry.yarnpkg.com/widget/-/widget-1.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/widget",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP registry.yarnpkg.com widget mismatch",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/widget": {
+            "version": "1.0.0",
+            "resolved": "http://registry.yarnpkg.com/widget/-/widget-2.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/widget",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP registry.yarnpkg.com @acme/widget canonical",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/@acme/widget": {
+            "version": "1.0.0",
+            "resolved": "http://registry.yarnpkg.com/@acme/widget/-/widget-1.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/widget",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/widget",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP registry.yarnpkg.com @acme/widget mismatch",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/@acme/widget": {
+            "version": "1.0.0",
+            "resolved": "http://registry.yarnpkg.com/@acme/widget/-/widget-2.0.0.tgz"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/widget",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP npm.pkg.github.com widget canonical",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/widget": {
+            "version": "1.0.0",
+            "resolved": "http://npm.pkg.github.com/download/widget/1.0.0/abcdef"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/widget",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP npm.pkg.github.com widget mismatch",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/widget": {
+            "version": "1.0.0",
+            "resolved": "http://npm.pkg.github.com/download/widget/2.0.0/abcdef"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/widget",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP npm.pkg.github.com @acme/widget canonical",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/@acme/widget": {
+            "version": "1.0.0",
+            "resolved": "http://npm.pkg.github.com/download/@acme/widget/1.0.0/abcdef"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/widget",
+          "version": "1.0.0"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/widget",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "HTTP npm.pkg.github.com @acme/widget mismatch",
+    "parser": "fromPackageLock",
+    "args": [
+      {
+        "lockfileVersion": 3,
+        "packages": {
+          "node_modules/@acme/widget": {
+            "version": "1.0.0",
+            "resolved": "http://npm.pkg.github.com/download/@acme/widget/2.0.0/abcdef"
+          }
+        }
+      }
+    ],
+    "expected": {
+      "rows": [],
+      "incomplete": true,
+      "decisions": [
+        {
+          "key": "node_modules/@acme/widget",
+          "status": "incomplete",
+          "reason": "invalid canonical registry route"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 named peers widget relative",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  '/widget/1.0.0-rc.1+build.7_react@18.2.0_@acme+peer@2.0.0':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/widget/1.0.0-rc.1+build.7_react@18.2.0_@acme+peer@2.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 named peers widget absolute",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  'registry.corp/widget/1.0.0-rc.1+build.7_react@18.2.0_@acme+peer@2.0.0':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp/widget/1.0.0-rc.1+build.7_react@18.2.0_@acme+peer@2.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 named peers @acme/widget relative",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  '/@acme/widget/1.0.0-rc.1+build.7_react@18.2.0_@acme+peer@2.0.0':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/@acme/widget/1.0.0-rc.1+build.7_react@18.2.0_@acme+peer@2.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 5.4 named peers @acme/widget absolute",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '5.4'\npackages:\n  'registry.corp/@acme/widget/1.0.0-rc.1+build.7_react@18.2.0_@acme+peer@2.0.0':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp/@acme/widget/1.0.0-rc.1+build.7_react@18.2.0_@acme+peer@2.0.0",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 named peers widget relative",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  '/widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 named peers widget absolute",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  'registry.corp/widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp/widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 named peers @acme/widget relative",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  '/@acme/widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "/@acme/widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "label": "pnpm 6.0 named peers @acme/widget absolute",
+    "parser": "fromPnpmLock",
+    "args": [
+      "lockfileVersion: '6.0'\npackages:\n  'registry.corp/@acme/widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)':\n    resolution: {integrity: sha512-fixture}\n"
+    ],
+    "expected": {
+      "rows": [
+        {
+          "name": "@acme/widget",
+          "version": "1.0.0-rc.1+build.7"
+        }
+      ],
+      "incomplete": false,
+      "decisions": [
+        {
+          "key": "registry.corp/@acme/widget@1.0.0-rc.1+build.7(react@18.2.0)(@acme/peer@2.0.0)",
+          "status": "reported"
+        }
+      ]
+    }
+  }
+]

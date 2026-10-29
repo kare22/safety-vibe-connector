@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync, chmodSync, unlinkSync, realpathSync, accessSync, statSync, constants } from 'node:fs';
 import { join, resolve, relative, dirname, isAbsolute, sep } from 'node:path';
-import { buildReport, findSupabase, normPublicUrl, urlNeedsCleaning, withHook, HOOK, packageManager, readPackages, screenString, secretLike, takeScreenWarnings, inventoryCounts, discoverProjects, selectProject } from './lib.mjs';
-
+import { spawnSync } from 'node:child_process';
+import { buildReport, findSupabase, normPublicUrl, urlNeedsCleaning, withHook, HOOK, packageManager, readPackages, screenString, secretLike, takeScreenWarnings, inventoryCounts, discoverProjects, selectProject, projectPath, readProjectFile } from './lib.mjs';
+const GIT_TIMEOUT_MS = 15000;
 const RC = '.safetyviberc.json';
 const LOCAL = '.safetyviberc.local.json';
 const DEFAULT_API = 'https://dashboard.safetyvibe.eu/connect/api/v1';
 const REPORT_KEY = /^svk_[A-Za-z0-9_-]{32}$/;
 const CLAIM_TOKEN = /^[A-Za-z0-9_-]{16,64}$/;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const USAGE = 'Usage: safetyvibe-connect setup|scan|inventory|status|help [--claim-token TOKEN] [--url URL] [--name NAME] [--project DIR] [--dry-run] [--summary|--json=summary] [--json] [--compact] [--out FILE.json] [--quiet] [--no-hook] [--help/-h] [--version/-v]\n--dry-run and inventory: no network; non-TTY/agent default is summary. --json: full body on stdout, summary on stderr. --compact: one-line JSON. Precedence: --summary/--json=summary > --out > --json; --out still exports the body. --dry-run --out FILE.json writes the body without sending. inventory --json --compact is the local inventory route; paste receiver compatibility requires separate verification.';
+const USAGE = 'Usage: safetyvibe-connect setup|scan|inventory|status|help [--claim-token TOKEN] [--url URL] [--name NAME] [--project DIR] [--dry-run] [--summary|--json=summary] [--json] [--compact] [--out FILE.json] [--quiet] [--no-hook] [--help/-h] [--version/-v]\n--dry-run and inventory: no network; non-TTY/automation default is summary. --json: full body on stdout, summary on stderr. --compact: one-line JSON. Precedence: --summary/--json=summary > --out > --json; --out still exports the body. --dry-run --out FILE.json writes the body without sending. inventory --json --compact is the local inventory route; paste receiver compatibility requires separate verification.';
 const argv = process.argv.slice(2);
 const flags = {};
 let cmd = ''; let error = '';
@@ -41,16 +42,16 @@ if (cmd === 'inventory') flags['dry-run'] = true;
 const VERSION = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version;
 if (flags.version) { console.log(VERSION); process.exit(0); }
 function installed(dir, hook = false) {
-  try { const p = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8')); return ['dependencies', 'devDependencies', 'optionalDependencies'].some(k => Object.hasOwn(p[k] || {}, 'safetyvibe-connect')) || (hook && /(?:^|[\s(])safetyvibe-connect\s+scan\b/.test(p.scripts?.postinstall || '')); } catch { return false; }
+  try { const p = JSON.parse(readProjectFile(dir, 'package.json')); return ['dependencies', 'devDependencies', 'optionalDependencies'].some(k => Object.hasOwn(p[k] || {}, 'safetyvibe-connect')) || (hook && /(?:^|[\s(])safetyvibe-connect\s+scan\b/.test(p.scripts?.postinstall || '')); } catch { return false; }
 }
 function workspaceRoot(dir) {
-  try { const p = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8')); if (p.workspaces) return true; } catch {}
+  try { const p = JSON.parse(readProjectFile(dir, 'package.json')); if (p.workspaces) return true; } catch {}
   // pnpm 10 also writes pnpm-workspace.yaml for build settings in single apps: only a packages list counts.
-  try { return /^packages\s*:/m.test(readFileSync(join(dir, 'pnpm-workspace.yaml'), 'utf8')); } catch { return false; }
+  try { return /^packages\s*:/m.test(readProjectFile(dir, 'pnpm-workspace.yaml')); } catch { return false; }
 }
 let root = process.env.INIT_CWD && process.env.INIT_CWD !== process.cwd() && !workspaceRoot(process.env.INIT_CWD) && installed(process.env.INIT_CWD, true) ? process.env.INIT_CWD : process.cwd();
 try { root = selectProject(root, flags.project); } catch { console.error('Invalid --project: choose an existing project directory inside the current project root.'); process.exit(cmd === 'scan' ? 0 : 2); }
-const summaryOnly = flags.summary || (!flags.json && !flags.out && (!process.stdout.isTTY || process.env.TERM === 'dumb' || (process.env.CI && !/^(false|0)$/i.test(process.env.CI)) || Object.keys(process.env).some(k => /^(CLAUDECODE|REPLIT.*|REPL_ID|LOVABLE.*|BOLT.*|CODEX.*|EMERGENT.*|BASE44_.*|CURSOR_.*|GITHUB_ACTIONS|GITLAB_CI|BUILD_ID|CONTINUOUS_INTEGRATION)$/.test(k))));
+const summaryOnly = flags.summary || (!flags.json && !flags.out && (!process.stdout.isTTY || process.env.TERM === 'dumb' || (process.env.CI && !/^(false|0)$/i.test(process.env.CI)) || Object.keys(process.env).some(k => /^(REPLIT.*|REPL_ID|LOVABLE.*|BOLT.*|EMERGENT.*|BASE44_.*|GITHUB_ACTIONS|GITLAB_CI|BUILD_ID|CONTINUOUS_INTEGRATION)$/.test(k))));
 const machineJson = flags.json && !summaryOnly && !flags.out;
 const say = (...args) => { if (!flags.quiet && !flags['dry-run'] && !flags.summary && (cmd === 'status' || !summaryOnly)) (machineJson ? console.error : console.log)(...args); };
 const warnings = [];
@@ -59,49 +60,79 @@ const flushWarnings = () => { for (const message of [...takeScreenWarnings(), ..
 const safeText = value => { const text = String(value).replace(/[\x00-\x1f\x7f-\x9f]/g, ''); return (secretLike(text, false, false) ? '[text removed: it looked like a key]' : text).slice(0, 300); };
 // Variable names such as VITE_SUPABASE_SERVICE_ROLE_KEY are printed; only names that carry key material are hidden.
 const safeName = value => { const text = String(value).replace(/[\x00-\x1f\x7f-\x9f]/g, ''); return /^[\w./-]{1,120}$/.test(text) && !secretLike(text.replace(/service_role/gi, ''), false, false) ? text : 'a client-exposed variable'; };
-const readJson = (file) => { try { return JSON.parse(readFileSync(join(root, file), 'utf8')) || {}; } catch { return {}; } };
+const readJson = (file) => { try { return JSON.parse(readProjectFile(root, projectPath(root, file, { write: true }))) || {}; } catch (e) { if (e.code === 'SAFETYVIBE_BOUNDARY') throw e; return {}; } };
+const configPath = file => projectPath(root, file, { write: true });
 function readRc() {
   const pub = readJson(RC); const local = readJson(LOCAL);
   return { ...pub, ...Object.fromEntries(['key', 'claimToken'].filter(k => Object.hasOwn(local, k)).map(k => [k, local[k]])) };
 }
+function credentialFileSafe() {
+  try {
+    const git = args => spawnSync('git', ['-C', root, ...args], { windowsHide: true, encoding: 'utf8', timeout: GIT_TIMEOUT_MS, maxBuffer: 65536,
+      env: { ...process.env, LC_ALL: 'C', LANGUAGE: 'C' } });
+    const repository = git(['rev-parse', '--is-inside-work-tree']);
+    const inGit = !repository.error && !repository.signal && repository.status === 0 && repository.stdout?.trim() === 'true';
+    if (inGit) {
+      const trackedCheck = git(['ls-files', '--error-unmatch', '--', LOCAL]);
+      if (trackedCheck.status === 0 && !trackedCheck.error && !trackedCheck.signal) {
+        alert('WARNING: .safetyviberc.local.json is already tracked by Git; no credentials saved. Ignore rules cannot protect tracked credentials. Run git rm --cached -- .safetyviberc.local.json and rotate any report key or claim token committed previously.');
+        return false;
+      } else if (trackedCheck.status !== 1 || trackedCheck.error || trackedCheck.signal) {
+        alert('Could not verify whether .safetyviberc.local.json is tracked by Git; no credentials saved. Check git ls-files --error-unmatch before retrying setup.');
+        return false;
+      }
+    } else if (repository.error?.code !== 'ENOENT' && (repository.error || repository.signal || repository.status !== 128 || !/not a git repository/i.test(repository.stderr || ''))) {
+      alert('Could not verify effective Git ignoring of .safetyviberc.local.json; no credentials saved. Check git check-ignore --no-index before retrying setup.');
+      return false;
+    }
+    let ignore = ''; try { ignore = readFileSync(configPath('.gitignore'), 'utf8'); } catch (e) { if (e.code !== 'ENOENT') throw e; }
+    const effective = () => { const result = git(['check-ignore', '--no-index', '--quiet', '--', LOCAL]); return result.status === 0 && !result.error && !result.signal; };
+    if (!(inGit && effective()) && ignore.trimEnd().split(/\r?\n/).at(-1) !== '/' + LOCAL) {
+      writeFileSync(configPath('.gitignore'), ignore + (ignore && !ignore.endsWith('\n') ? '\n' : '') + '/' + LOCAL + '\n');
+    }
+    if (inGit && !effective()) {
+      alert('Could not verify effective Git ignoring of .safetyviberc.local.json; no credentials saved. Check git check-ignore --no-index before retrying setup.');
+      return false;
+    }
+    return true;
+  } catch {
+    alert('Could not verify credential-file safety; no credentials saved. Check project permissions and Git before retrying setup.');
+    return false;
+  }
+}
 function writeRc(rc) {
   const { key, claimToken, api, ...pub } = rc;
   pub.url = normPublicUrl(pub.url || '');
-  let ignored = true;
-  if (key || claimToken) try {
-    let ignore = ''; try { ignore = readFileSync(join(root, '.gitignore'), 'utf8'); } catch (e) { if (e.code !== 'ENOENT') throw e; }
-    if (!ignore.split(/\r?\n/).some(l => l.trim() === LOCAL)) writeFileSync(join(root, '.gitignore'), ignore + (ignore && !ignore.endsWith('\n') ? '\n' : '') + LOCAL + '\n');
-  } catch { ignored = false; }
+  if ((key || claimToken) && !credentialFileSafe()) return 'unignored';
   try {
     if (key || claimToken) {
-      writeFileSync(join(root, LOCAL), JSON.stringify({ ...(key ? { key } : {}), ...(claimToken ? { claimToken } : {}) }, null, 2) + '\n', { mode: 0o600 });
-      chmodSync(join(root, LOCAL), 0o600);
+      writeFileSync(configPath(LOCAL), JSON.stringify({ ...(key ? { key } : {}), ...(claimToken ? { claimToken } : {}) }, null, 2) + '\n', { mode: 0o600 });
+      chmodSync(configPath(LOCAL), 0o600);
     } else {
-      try { unlinkSync(join(root, LOCAL)); } catch (e) { if (e.code !== 'ENOENT') throw e; }
+      try { unlinkSync(configPath(LOCAL)); } catch (e) { if (e.code !== 'ENOENT') throw e; }
     }
-    writeFileSync(join(root, RC), JSON.stringify(pub, null, 2) + '\n');
+    writeFileSync(configPath(RC), JSON.stringify(pub, null, 2) + '\n');
   } catch { return false; }
-  if (!ignored) alert('saved the report key but could not add it to .gitignore - add .safetyviberc.local.json to .gitignore');
-  return ignored ? 'saved' : 'unignored';
+  return 'saved';
 }
 
 function writableConfig() {
   const probe = join(root, '.safetyvibe-write-' + process.pid); let created = false;
   try {
     for (const file of [RC, LOCAL]) {
-      try { if (!statSync(join(root, file)).isFile()) return false; accessSync(join(root, file), constants.W_OK); }
+      try { if (!statSync(configPath(file)).isFile()) return false; accessSync(configPath(file), constants.W_OK); }
       catch (e) { if (e.code !== 'ENOENT') return false; }
     }
-    writeFileSync(probe, '', { flag: 'wx', mode: 0o600 }); created = true;
-    unlinkSync(probe); created = false;
+    writeFileSync(configPath(probe), '', { flag: 'wx', mode: 0o600 }); created = true;
+    unlinkSync(configPath(probe)); created = false;
     return true;
   } catch { return false; }
-  finally { if (created) try { unlinkSync(probe); } catch {} }
+  finally { if (created) try { unlinkSync(configPath(probe)); } catch {} }
 }
 
 function addHook() {
   let pj; let original;
-  try { original = readFileSync(join(root, 'package.json'), 'utf8'); pj = JSON.parse(original); } catch { return 'skipped (no readable package.json)'; }
+  try { original = readFileSync(configPath('package.json'), 'utf8'); pj = JSON.parse(original); } catch { return 'skipped (no readable package.json)'; }
   if (!pj || typeof pj !== 'object' || Array.isArray(pj)) return 'skipped (invalid package.json)';
   if (Object.hasOwn(pj, 'scripts') && (!pj.scripts || typeof pj.scripts !== 'object' || Array.isArray(pj.scripts))) return 'skipped (invalid scripts)';
   const result = pj.scripts && Object.hasOwn(pj.scripts, 'postinstall') && typeof pj.scripts.postinstall !== 'string'
@@ -109,7 +140,7 @@ function addHook() {
   if (result.status === 'unsafe') { alert('Could not safely chain postinstall. Add this line by hand: "postinstall": "' + HOOK + '"'); return 'skipped'; }
   if (result.status === 'already there') return result.status;
   pj.scripts = { ...pj.scripts, postinstall: result.script };
-  try { writeFileSync(join(root, 'package.json'), JSON.stringify(pj, null, /\n(\t| {4}| {2})\S/.exec(original)?.[1] || 2) + (/\r?\n$/.exec(original)?.[0] || '')); return 'added'; }
+  try { writeFileSync(configPath('package.json'), JSON.stringify(pj, null, /\n(\t| {4}| {2})\S/.exec(original)?.[1] || 2) + (/\r?\n$/.exec(original)?.[0] || '')); return 'added'; }
   catch { return 'could not write package.json'; }
 }
 function apiEndpoint() {
@@ -167,6 +198,11 @@ async function report() {
   for (const name of supabase.serviceVariables) alert(`found a service-role key variable (${safeName(name)}); make sure it is never in client code`);
   for (const finding of supabase.warnings) alert(`WARNING: ${safeName(finding)} holds a Supabase secret/service_role key in client-exposed config; every visitor can read it. Rotate it in Supabase now. Only a flag is sent, never the key.`);
   const lockState = readPackages(root);
+  const incompleteReason = [
+    lockState.incompleteReasons?.includes('malformed') && 'some package sources could not be identified (possibly an unsupported resolution shape)',
+    lockState.incompleteReasons?.includes('screened') && 'a screened value; review safety-screening warnings locally (a connector correction may be needed)',
+  ].filter(Boolean).join('; ');
+  if (lockState.incomplete && flags['dry-run']) alert('Inventory is incomplete: ' + incompleteReason + '. The partial package list is for local review only.');
   if (lockState.noLockfile && !flags.quiet) alert('No readable lockfile found (package-lock.json, pnpm-lock.yaml, yarn.lock or bun.lock); using safe package.json declarations, not resolved versions.'
     + (lockState.binaryBun ? ' Run `bun install --save-text-lockfile` to create bun.lock.' : ''));
   const projects = discoverProjects(root);
@@ -180,16 +216,19 @@ async function report() {
     summary(body, 'Dry run: nothing sent', lockState);
     guidance('Review locally with inventory --json --compact; verify receiver support before pasting.');
     if (!summaryOnly) {
-      console.error(body.supabase?.secret_key_exposed_client_side ? 'A secret key is exposed in client code; only that fact is reported, never the key.' : 'No keys or secrets are sent. The anon key is public by design. Only a fingerprint is sent.');
+      console.error(body.supabase?.secret_key_exposed_client_side ? 'A secret key is exposed in client code; only that fact is reported, never the key.' : 'Raw Supabase keys are excluded from the body; only a fingerprint is included. Known token shapes are screened in metadata; review local JSON for other sensitive values.');
       console.error(safeText(destination) + ' headers: ' + Object.keys(headers).join(', ') + ' (values hidden)');
     }
     warnings.push(...pending); flushWarnings();
     if (!summaryOnly && !flags.out) process.stdout.write(json);
     return 0;
   }
-  // Receiver 5406454 accepts ordinary ranges, but whitespace and persistence
-  // compatibility still need a separate receiver fix and integration tests.
-  // Keep declared bodies local until those are verified (see inventory contract).
+  // Declared inventories require receiver support for unchanged ranges, including
+  // whitespace, and preservation across save/refresh before network reporting.
+  // Keep these bodies local until compatibility has been verified.
+  if (body.incomplete) {
+    alert('Inventory is incomplete; nothing sent. Reason: ' + incompleteReason + '. Run with --dry-run or use inventory --json to review locally.'); return 1;
+  }
   if (body.versions_source === 'declared') {
     alert('Declared-range receiver support is not verified; nothing sent. Use inventory --json --compact to review locally, or supply a supported lockfile.'); return 1;
   }
@@ -197,13 +236,17 @@ async function report() {
     say('SafetyVibe: no project connection or connector dependency; skipping report.'); return 0;
   }
   if (machineJson) process.stdout.write(json);
-  if (!writableConfig()) { alert('SafetyVibe: project config is not writable (.safetyviberc.json / .safetyviberc.local.json); nothing sent. Run setup in a writable checkout.'); return 1; }
-  let saveFailed = false;
   const legacy = readJson(RC);
-  if (['key', 'claimToken', 'api'].some(k => Object.hasOwn(legacy, k)) || (legacy.url && legacy.url !== normPublicUrl(legacy.url))) {
+  const migration = ['key', 'claimToken', 'api'].some(k => Object.hasOwn(legacy, k)) || (legacy.url && legacy.url !== normPublicUrl(legacy.url));
+  // An already-linked scan can use only the environment key without persisting
+  // a returned key or changing connection settings, including in a read-only CI checkout.
+  const envOnlyScan = !setup && linked && !rc.key && !rc.claimToken && !token && !migration
+    && !flags.name && !flags.url && !flags['no-hook'] && url === normPublicUrl(rc.url || '');
+  if (!envOnlyScan && !writableConfig()) { alert('SafetyVibe: project config is not writable (.safetyviberc.json / .safetyviberc.local.json); nothing sent. Run setup in a writable checkout.'); return 1; }
+  if (!envOnlyScan && !credentialFileSafe()) { alert('SafetyVibe: credential-file safety could not be verified; nothing sent. Fix the checks above and retry setup.'); return 1; }
+  if (migration) {
     const saved = writeRc(rc);
-    if (!saved) alert('Could not save .safetyviberc.json migration; remove credentials manually.');
-    saveFailed = saved !== 'saved';
+    if (saved !== 'saved') { alert('Could not safely save .safetyviberc.json migration; nothing sent. Review local config permissions and Git before retrying.'); return 1; }
   }
   const manager = packageManager(root);
   const runner = { npm: 'npx', pnpm: 'pnpm dlx', yarn: 'yarn dlx', bun: 'bunx' }[manager];
@@ -261,8 +304,8 @@ async function report() {
   if (typeof b.key === 'string' && REPORT_KEY.test(b.key)) next.key = b.key;
   else if (b.key) alert('Invalid report key in server response.');
   delete next.claimToken;
-  const saved = writeRc(next);
-  if (!saved) {
+  const saved = envOnlyScan ? 'saved' : writeRc(next);
+  if (saved !== 'saved') {
     alert('SafetyVibe: report sent; app id ' + b.site + '; could not save .safetyviberc.json here, so future reports from this folder cannot reach the same app - set SAFETYVIBE_KEY or run setup in a writable checkout');
     return 1;
   }
@@ -274,13 +317,13 @@ async function report() {
     if (hook === 'could not write package.json') { alert('SafetyVibe: report sent; app id ' + b.site + '; could not write package.json.'); return 1; }
     followup = 'SafetyVibe: postinstall hook ' + hook + '.';
   } else if (setup) followup = 'Re-report manually: ' + runner + ' safetyvibe-connect scan';
-  if (saveFailed || saved === 'unignored') return 1;
   // A changed package.json is always reported, even in summary mode.
   guidance(followup || 'Re-report manually: ' + runner + ' safetyvibe-connect scan');
   return 0;
 }
 async function main() {
+  for (const file of [RC, LOCAL, '.gitignore', ...(cmd === 'setup' && !flags['dry-run'] && !flags['no-hook'] ? ['package.json'] : [])]) configPath(file);
   if (cmd === 'status') { const rc = readRc(); say(rc.site ? 'Linked to SafetyVibe app ' + safeText(rc.site) + (normPublicUrl(rc.url) ? ' (' + normPublicUrl(rc.url) + ')' : '') + '.' : 'Not linked.'); return 0; }
   return report();
 }
-main().then(code => { flushWarnings(); process.exit(cmd === 'scan' && code !== 2 ? 0 : code); }, () => { alert('SafetyVibe: could not complete report.'); flushWarnings(); process.exit(cmd === 'scan' ? 0 : 1); });
+main().then(code => { flushWarnings(); process.exit(cmd === 'scan' && code !== 2 ? 0 : code); }, e => { alert(e.code === 'SAFETYVIBE_BOUNDARY' ? 'SafetyVibe: project boundary refused an outside or linked config path; nothing sent.' : 'SafetyVibe: could not complete report.'); flushWarnings(); process.exit(cmd === 'scan' ? 0 : 1); });

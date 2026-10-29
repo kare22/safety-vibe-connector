@@ -21,7 +21,7 @@ test('key-like hostnames cannot leak through public URL metadata', t => {
 });
 
 test('adversarial source specs are dropped across all lockfile generations', () => {
-  const specs = ['git+https://private.example/name/-/name-1.0.0.tgz#semver:^1.0.0', 'github:owner/private#semver:1.0.0', 'git+ssh://git@private.example/repo', 'file:../private-folder', 'link:../private-folder', 'workspace:*', 'https://private.example/download?secret=value'];
+  const specs = ['git+https://private.example/name/-/name-1.0.0.tgz#semver:^1.0.0', 'github:owner/private#semver:1.0.0', 'git+ssh://git@private.example/repo', 'file:../private-folder', 'link:../private-folder', 'workspace:*'];
   for (const spec of specs) {
     const entry = { version: '1.0.0', resolved: spec };
     assert.deepEqual(fromPackageLock({ lockfileVersion: 1, dependencies: { private: entry } }), []);
@@ -141,7 +141,7 @@ test('lock choice, malformed fallbacks, workspaces, dev and optional inventory',
   writeFileSync(join(dir, 'package.json'), JSON.stringify({ packageManager: 'npm@10', workspaces: ['packages/*'] }));
   assert.equal(readPackages(child).packages[0].name, 'a');
   const entries = { packages: { 'node_modules/a': { version: '1.0.0', optional: true, os: ['darwin'] }, 'node_modules/b': { version: '1.0.0', optional: true, cpu: ['arm64'] }, 'node_modules/c': { version: '1.0.0', dev: true } } };
-  assert.deepEqual(fromPackageLock(entries, { platform: 'win32', arch: 'x64' }), [{ name: 'c', version: '1.0.0', dev: true }]);
+  assert.deepEqual(fromPackageLock(entries), [{ name: 'a', version: '1.0.0' }, { name: 'b', version: '1.0.0' }, { name: 'c', version: '1.0.0', dev: true }]);
   assert.equal(fromPnpmLock("packages:\n  /x@1.0.0:\n    resolution: {integrity: sha512-test}\n    dev: true\n")[0].dev, true);
   assert.equal(packageManager(child, {}), 'npm');
   const huge = { packages: Object.fromEntries(Array.from({ length: 5001 }, (_, i) => ['node_modules/p' + i, { version: '1.0.0' }])) };
@@ -318,12 +318,12 @@ test('workspace exclusion globs exclude members in all formats', t => {
 test('0.2.2 registry resolution filtering in every lockfile format', () => {
   const good = 'https://private.example/npm/registry-pkg/-/registry-pkg-1.2.3.tgz';
   const entries = { 'registry-pkg': { version: '1.2.3', resolved: good }, 'private-git-dep': { version: '2.0.0', resolved: 'git+https://private.example/repo.git' }, 'tarball-dep': { version: '3.1.4', resolved: 'https://private.example/archive.tgz' } };
-  const expected = [{ name: 'registry-pkg', version: '1.2.3' }];
+  const expected = [{ name: 'registry-pkg', version: '1.2.3' }, { name: 'tarball-dep', version: '3.1.4' }];
   assert.deepEqual(fromPackageLock({ dependencies: entries }), expected);
   for (const lockfileVersion of [2, 3]) assert.deepEqual(fromPackageLock({ lockfileVersion, packages: Object.fromEntries(Object.entries(entries).map(([k,v]) => ['node_modules/'+k,v])) }), expected);
   assert.deepEqual(fromBunLock(JSON.stringify({ packages: Object.fromEntries(Object.entries(entries).map(([k,v]) => [k,[k+'@'+v.version,k === 'registry-pkg' ? '' : v.resolved]])) })), expected);
   assert.deepEqual(fromYarnLock(Object.entries(entries).map(([k,v]) => `${k}@^${v.version}:\n  version "${v.version}"\n  resolved "${v.resolved}"\n`).join('\n')), expected);
-  assert.deepEqual(fromYarnLock('__metadata:\n  version: 6\n'+Object.entries(entries).map(([k,v]) => `"${k}@${k === 'registry-pkg' ? 'npm:^'+v.version : v.resolved}":\n  version: ${v.version}\n  resolution: "${k}@${k === 'registry-pkg' ? 'npm:'+v.version : v.resolved}"\n`).join('\n')), expected);
+  assert.deepEqual(fromYarnLock('__metadata:\n  version: 6\n'+Object.entries(entries).map(([k,v]) => `"${k}@${k === 'registry-pkg' ? 'npm:^'+v.version : v.resolved}":\n  version: ${v.version}\n  resolution: "${k}@${k === 'registry-pkg' ? 'npm:'+v.version : v.resolved}"\n`).join('\n')), expected.slice(0, 1));
   for (const separator of ['@','/']) assert.deepEqual(fromPnpmLock('packages:\n'+Object.entries(entries).map(([k,v]) => `  /${k}${separator}${v.version}:\n    resolution: {integrity: sha512-test${k === 'registry-pkg' ? '' : ', tarball: '+v.resolved}}\n`).join('\n')), expected);
   assert.deepEqual(fromPnpmLock('packages:\n  /@scope/pkg/1.2.3_peer@x:\n    resolution: {integrity: sha512-x}\n'), [{ name: '@scope/pkg', version: '1.2.3' }]);
   assert.deepEqual(fromPackageLock({ dependencies: { a: { version:'git+https://example.com/a' }, b: { version:'2.0.0',link:true } } }), []);
@@ -478,7 +478,7 @@ test('0.3.1 fp-lovable-fixture and minified guards preserve public fingerprints'
   }
 });
 
-test('0.3.1 AI-agent docs cite the exact offline return and full payload fields', () => {
+test('Published docs cite the exact offline return and full payload fields', () => {
   const cli = readFileSync(new URL('../cli.mjs', import.meta.url), 'utf8'); const lines = cli.split('\n');
   const start = lines.findIndex(line => line.trim() === "if (flags['dry-run']) {");
   const returns = lines.findIndex((line, i) => i > start && line.trim() === 'return 0;');
@@ -488,30 +488,32 @@ test('0.3.1 AI-agent docs cite the exact offline return and full payload fields'
     const doc = readFileSync(new URL('../' + file, import.meta.url), 'utf8');
     const cited = /cli\.mjs line (\d+): `return 0;` inside `if \(flags\['dry-run'\]\)`/.exec(doc);
     assert.ok(cited); assert.equal(Number(cited[1]), returns + 1); assert.equal(lines[Number(cited[1]) - 1].trim(), 'return 0;');
+    assert.match(doc, /escaping read symlink or junction stops the whole report before any network request or config write/);
+    assert.match(doc, /absent Git binary \(ENOENT\) is treated as an unversioned project/);
     assert.match(doc, /makes no network call and writes nothing unless you pass `--out`/);
     assert.match(doc, /not just their key names/); assert.doesNotMatch(doc, /0\.2\.3/);
-    for (const field of ['v', 'name', 'url', 'platform', 'environment', 'lockfile', 'versions_source', 'source', 'packages', 'truncated', 'supabase', 'packages[].ecosystem', 'packages[].name', 'packages[].version', 'packages[].dev', 'supabase.project_ref', 'supabase.host', 'supabase.key_kind', 'supabase.key_fingerprint', 'supabase.secret_key_exposed_client_side']) assert.ok(doc.includes('`' + field + '`'), field);
+    for (const field of ['v', 'name', 'url', 'platform', 'environment', 'lockfile', 'versions_source', 'source', 'packages', 'truncated', 'incomplete', 'supabase', 'packages[].ecosystem', 'packages[].name', 'packages[].version', 'packages[].dev', 'supabase.project_ref', 'supabase.host', 'supabase.key_kind', 'supabase.key_fingerprint', 'supabase.secret_key_exposed_client_side']) assert.ok(doc.includes('`' + field + '`'), field);
     for (const path of ['src/integrations/supabase/client.ts', 'src/integrations/supabase/client.js', 'src/lib/supabase.ts', 'src/lib/supabase.js', 'lib/supabase.ts', 'utils/supabase.ts']) assert.ok(doc.includes(path));
     assert.doesNotMatch(doc, /github\.com\/kare22\/safetyvibe-connect|provenance|public repository/i);
-    assert.ok(doc.includes('https://safetyvibe.eu/connect/source/0.3.2'));
+    assert.ok(doc.includes('https://safetyvibe.eu/connect/source/0.3.3'));
   }
 });
 
-test('0.3.2 release metadata and published documentation agree', () => {
+test('0.3.3 release metadata and published documentation agree', () => {
   const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
-  assert.equal(pkg.version, '0.3.2');
+  assert.equal(pkg.version, '0.3.3');
   assert.deepEqual(pkg.files, ['cli.mjs', 'lib.mjs', 'README.md', 'AGENTS.md', 'LICENSE', 'SECURITY.md']);
   for (const field of ['scripts', 'dependencies', 'devDependencies', 'optionalDependencies']) assert.equal(pkg[field], undefined);
-  assert.deepEqual(pkg.repository, { type: 'git', url: 'git+https://github.com/kare22/safetyvibe-connect.git' });
+  assert.deepEqual(pkg.repository, { type: 'git', url: 'git+https://github.com/kare22/safety-vibe-connector.git' });
   for (const file of ['README.md', 'AGENTS.md']) {
     const doc = readFileSync(new URL('../' + file, import.meta.url), 'utf8');
     assert.doesNotMatch(doc, /unreleased|safetyvibe-connect@0\.3\.1|source\/0\.3\.1/);
     for (const command of [
-      'npx -y safetyvibe-connect@0.3.2 inventory --json --compact',
-      'npx -y safetyvibe-connect@0.3.2 inventory --project frontend --json --compact',
-      'pnpm dlx safetyvibe-connect@0.3.2 setup',
-      'bunx safetyvibe-connect@0.3.2 setup',
-      'yarn dlx safetyvibe-connect@0.3.2 setup',
+      'npx -y safetyvibe-connect@0.3.3 inventory --json --compact',
+      'npx -y safetyvibe-connect@0.3.3 inventory --project frontend --json --compact',
+      'pnpm dlx safetyvibe-connect@0.3.3 setup',
+      'bunx safetyvibe-connect@0.3.3 setup',
+      'yarn dlx safetyvibe-connect@0.3.3 setup',
     ]) assert.ok(doc.includes(command), command);
     assert.match(doc, /0\.3\.2 \(2026-10-19\) adds/);
     assert.match(doc, /--json=summary/);

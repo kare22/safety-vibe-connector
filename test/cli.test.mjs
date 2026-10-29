@@ -63,6 +63,7 @@ for (const mode of ['invalid-json', 'redirect', 'dns-failure', 'late-rejection']
     return 'not json';
   });
   writeFileSync(join(dir, '.safetyviberc.local.json'), JSON.stringify({ claimToken: 'valid-claim-token' }));
+  writeFileSync(join(dir, '.gitignore'), '/.safetyviberc.local.json\n');
   const before = snapshot(dir);
   // Simulate resolver failure without issuing any DNS request.
   const preload = mode === 'dns-failure' ? "globalThis.fetch = async () => { throw Object.assign(new Error('DNS'), { code: 'ENOTFOUND' }); };"
@@ -150,7 +151,8 @@ test('remote HTTP endpoint rejected without writes', async t => {
   assert.equal((await run(dir, ['setup'], 'http://example.com')).code, 1); assert.deepEqual(snapshot(dir), before);
 });
 for (const response of ['<html>ok</html>', '', {}, [], { site: 'junk' }]) test('invalid success response saves nothing: ' + JSON.stringify(response), async t => {
-  const dir = project(t); const before = snapshot(dir); const s = await server(t, () => response);
+  const dir = project(t); writeFileSync(join(dir, '.gitignore'), '/.safetyviberc.local.json\n');
+  const before = snapshot(dir); const s = await server(t, () => response);
   const result = await run(dir, ['setup'], s.api); assert.equal(result.code, 1); assert.match(result.stderr, /unexpected response from .* \(HTTP 200\)/); assert.deepEqual(snapshot(dir), before);
 });
 for (const code of ['claim_expired', 'claim_used']) test(code + ' removes committed token', async t => {
@@ -237,7 +239,7 @@ test('local token wins, migration precedes rejection and read-only commands neve
   assert.match(result.stderr, /Try later/);
 });
 
-test('0.3.1 unwritable migration prevents sending and ignore-only failure is explicit', async t => {
+test('unwritable migration prevents sending and credential-safety errors stop persistence', async t => {
   const dir = project(t); const s = await server(t);
   writeFileSync(join(dir, '.safetyviberc.json'), JSON.stringify({ key: KEY }));
   mkdirSync(join(dir, '.safetyviberc.local.json'));
@@ -245,8 +247,8 @@ test('0.3.1 unwritable migration prevents sending and ignore-only failure is exp
   assert.equal(result.code, 0); assert.equal(s.hits.length, 0); assert.match(result.stderr, /config is not writable.*nothing sent/);
   const other = project(t); mkdirSync(join(other, '.gitignore'));
   const saved = await run(other, ['setup', '--quiet', '--no-hook'], s.api);
-  assert.equal(saved.code, 1); assert.equal(JSON.parse(readFileSync(join(other, '.safetyviberc.local.json'))).key, KEY);
-  assert.match(saved.stderr, /saved the report key but could not add it to .gitignore - add .safetyviberc.local.json to .gitignore/);
+  assert.equal(saved.code, 1); assert.equal(readdirSync(other).includes('.safetyviberc.local.json'), false);
+  assert.match(saved.stderr, /could not verify credential-file safety; no credentials saved/i);
 });
 
 test('safety messages survive quiet and dry-run; rejection is sanitised and bounded', async t => {
@@ -319,10 +321,18 @@ for (const file of ['package.json', '.gitignore', '.safetyviberc.json']) for (co
     SAFETYVIBE_CLAIM_TOKEN: 'valid-claim-token', NODE_OPTIONS: '--import=data:text/javascript,' + encodeURIComponent(preload),
   });
   assert.equal(result.code, cmd === 'setup' ? 1 : 0);
+  if (file === '.gitignore') {
+    assert.doesNotMatch(result.stdout, /Connected:/);
+    assert.match(result.stderr, /nothing sent/);
+    assert.equal((result.stdout + result.stderr).includes(claimUrl), false);
+    assert.equal(readdirSync(dir).includes('.safetyviberc.local.json'), false);
+    return;
+  }
   assert.equal((result.stdout.match(/Connected:/g) || []).length, 1);
   assert.equal((result.stdout + result.stderr).split(claimUrl).length - 1, 1);
   assert.match(result.stdout, /Keys sent: 0\nConnected:/);
-  if (file !== 'package.json' || cmd === 'setup') assert.match(result.stderr, /could not (?:write package.json|add it to .gitignore|save .safetyviberc.json)/);
+  if (file !== 'package.json' || cmd === 'setup') assert.match(result.stderr, /could not (?:write package.json|verify credential-file safety|save .safetyviberc.json)/i);
+  if (file === '.gitignore') assert.equal(readdirSync(dir).includes('.safetyviberc.local.json'), false);
 });
 
 for (const code of ['claim_expired', 'claim_used']) test('local ' + code + ' warning survives quiet and clears token', async t => {
@@ -341,18 +351,19 @@ for (const postinstall of [false, 0, null, [], {}]) test('non-string hook skippe
   assert.equal(result.code, 0); assert.match(result.stderr, /Add this line by hand/); assert.equal(readFileSync(join(dir, 'package.json'), 'utf8'), original);
 });
 
-for (const cmd of ['setup', 'scan']) test('ignore failure saves key but fails only setup: ' + cmd, async t => {
+for (const cmd of ['setup', 'scan']) test('ignore-file errors block credential writes and fail only setup: ' + cmd, async t => {
   const dir = project(t); const s = await server(t); mkdirSync(join(dir, '.gitignore'));
   writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'notes', devDependencies: { 'safetyvibe-connect': '^0.2.2' } }));
   const result = await run(dir, [cmd, '--no-hook'], s.api);
-  assert.equal(result.code, cmd === 'setup' ? 1 : 0); assert.match(result.stderr, /could not add it to .gitignore/);
-  assert.ok(JSON.parse(readFileSync(join(dir, '.safetyviberc.local.json'))).key === KEY);
+  assert.equal(result.code, cmd === 'setup' ? 1 : 0); assert.match(result.stderr, /no credentials saved/i);
+  assert.equal(readdirSync(dir).includes('.safetyviberc.local.json'), false);
 });
 
-test('public-only save leaves local config and ignore absent', async t => {
+test('public-only save leaves local config absent and retains the preflight ignore rule', async t => {
   const dir = project(t); const s = await server(t, () => ({ site: SITE, claimed: true }));
   const result = await run(dir, ['setup', '--no-hook'], s.api); assert.equal(result.code, 0);
-  assert.equal(readdirSync(dir).includes('.safetyviberc.local.json'), false); assert.equal(readdirSync(dir).includes('.gitignore'), false);
+  assert.equal(readdirSync(dir).includes('.safetyviberc.local.json'), false);
+  assert.equal(readFileSync(join(dir, '.gitignore'), 'utf8'), '/.safetyviberc.local.json\n');
 });
 
 test('CLI URL alert follows actual path removal', async t => {
@@ -378,8 +389,9 @@ test('ignore failure during token migration preserves token and alerts', async t
   writeFileSync(join(dir, '.safetyviberc.json'), JSON.stringify({ claimToken: 'local-claim-token' }));
   const s = await server(t, (req, res) => { res.statusCode = 503; return { error: 'Try later' }; });
   const result = await run(dir, ['setup', '--no-hook'], s.api);
-  assert.equal(result.code, 1); assert.match(result.stderr, /could not add it to .gitignore/);
-  assert.ok(JSON.parse(readFileSync(join(dir, '.safetyviberc.local.json'))).claimToken === 'local-claim-token');
+  assert.equal(result.code, 1); assert.match(result.stderr, /no credentials saved/i);
+  assert.equal(readdirSync(dir).includes('.safetyviberc.local.json'), false);
+  assert.equal(JSON.parse(readFileSync(join(dir, '.safetyviberc.json'))).claimToken, 'local-claim-token');
 });
 
 for (const args of [['--dry-run', '--json'], ['--dry-run', '--json', '--url', 'https://notes.example.com']]) test('0.2.2 flag-only setup dry-run ' + args.join(' '), async t => {
@@ -391,7 +403,8 @@ test('0.2.2 flag-only claim token runs setup', async t => {
   assert.equal(r.code, 0); assert.equal(s.hits[0].headers['x-safetyvibe-claim-token'], 'valid-claim-token');
 });
 for (const mode of ['stall', 'oversize', 'cap']) for (const cmd of ['setup', 'scan']) test('0.2.2 bounded response ' + mode + ' ' + cmd, { timeout: 15000 }, async t => {
-  const dir = project(t); writeFileSync(join(dir, '.safetyviberc.local.json'), JSON.stringify({ claimToken: 'valid-claim-token' })); const before = snapshot(dir);
+  const dir = project(t); writeFileSync(join(dir, '.safetyviberc.local.json'), JSON.stringify({ claimToken: 'valid-claim-token' }));
+  writeFileSync(join(dir, '.gitignore'), '/.safetyviberc.local.json\n'); const before = snapshot(dir);
   const srv = http.createServer((req, res) => { req.resume(); res.writeHead(200, { 'content-type': 'application/json' }); res.write(mode === 'oversize' ? 'x'.repeat(65537) : '{"site":'); });
   await new Promise(resolve => srv.listen(0, '127.0.0.1', resolve)); t.after(() => { srv.closeAllConnections(); srv.close(); });
   const start = Date.now(); const r = await run(dir, [cmd], 'http://127.0.0.1:' + srv.address().port, { SAFETYVIBE_TIMEOUT_MS: mode === 'cap' ? '60000' : '1500' });
@@ -566,11 +579,20 @@ for (const marker of ['sb_publishable_abcdefghijklmnop123456789', 'sb_secret_a1a
   } }));
   for (const mode of [['--dry-run', '--json'], ['setup', '--no-hook']]) {
     const result = await run(dir, [...mode, '--name', 'prefix ' + marker, '--url', 'https://example.com/' + marker], s.api, { SAFETYVIBE_ENV: marker });
-    assert.equal(result.code, 0);
-    assert.ok(!(result.stdout + result.stderr + JSON.stringify(s.hits.map(h => h.body))).includes(marker));
-    for (const field of ['name', 'url', 'environment', 'package name', 'package version']) assert.ok(result.stderr.includes('Dropped ' + field + ': it looked like a key.'), field);
+    assert.equal(result.code, mode[0] === '--dry-run' ? 0 : 1);
+    if (mode[0] === '--dry-run') assert.equal(JSON.parse(result.stdout).incomplete, true);
+    else assert.match(result.stderr, /incomplete.*nothing sent/i);
+    let stdout = result.stdout;
+    const longSemver = marker === 'a1'.repeat(30);
+    if (longSemver && mode[0] === '--dry-run') {
+      const report = JSON.parse(stdout);
+      assert.deepEqual(report.packages.find(p => p.name === 'safe-version'), { ecosystem: 'npm', name: 'safe-version', version: '1.0.0-' + marker });
+      stdout = JSON.stringify({ ...report, packages: report.packages.filter(p => p.name !== 'safe-version') });
+    }
+    assert.ok(!(stdout + result.stderr + JSON.stringify(s.hits.map(h => h.body))).includes(marker));
+    for (const field of ['name', 'url', 'environment', 'package name', ...(!longSemver ? ['package version'] : [])]) assert.ok(result.stderr.includes('Dropped ' + field + ': it looked like a key.'), field);
   }
-  assert.equal(s.hits.length, 1);
+  assert.equal(s.hits.length, 0);
 });
 
 test('screening names the exposed variable, keeps ordinary names, warns once after the summary', async t => {
@@ -660,7 +682,7 @@ test('0.3.1 Emergent non-TTY default stays within six lines for 1486 packages', 
   const both = await run(dir, ['setup', '--dry-run', '--json', '--summary'], s.api); assert.equal(both.stdout, r.stdout); assert.equal(both.stderr, '');
 });
 
-test('0.3.1 TTY output stays JSON unless an agent or CI is detected', async t => {
+test('0.3.1 TTY output stays JSON unless automation or CI is detected', async t => {
   const dir = project(t); const s = await server(t);
   const preload = "Object.defineProperty(process.stdout, 'isTTY', { value: true });";
   const clean = Object.fromEntries(Object.keys(process.env)
